@@ -1,30 +1,19 @@
 const inquirer = require('inquirer'),
   logger = require('./logger'),
   path = require('path'),
-  fs = require('fs')
+  fs = require('fs'),
+  program = require('commander')
 
-const templateDir = './templates'
 const root = process.cwd()
+const templateDir = path.join(__dirname, '../templates')
 
 const promptInfo = [
   {
     type: 'input',
     name: 'app-name',
     message: "What's the name of your project"
-  },
-  {
-    type: 'input',
-    name: 'author-name',
-    message: "What's your name?"
   }
 ]
-
-function chalkGreet(authorName, appName) {
-  const greet = `Good, dear ${authorName}.
-I will create a project named ${appName} for you.
-Please wait a moment.`
-  logger.yellow(greet)
-}
 
 function traverseDir(dir, callback) {
   let dirPath = path.isAbsolute(dir) ? dir : path.resolve(dir)
@@ -55,21 +44,32 @@ function copyFile(file, goal, options) {
   fs.writeFileSync(goal, str)
 }
 
-inquirer.prompt(promptInfo).then(answers => {
-  const authorName = answers['author-name']
-  const appName = answers['app-name']
-
-  logger.green('-----------')
-
-  chalkGreet(authorName, appName)
-
-  const options = { appName, authorName }
+function createProject(appName) {
+  logger.yellow('-----------')
+  const options = { appName, authorName: 'xiaoHan' }
   traverseDir(templateDir, file => {
     const goal = path.join(root, appName, path.relative(templateDir, file))
     copyFile(file, goal, options)
   })
+  logger.green(`your project has been created successfully.`)
+  logger.yellow('-----------')
+}
 
-  logger.green(`create app success`)
+program
+  .version('0.1.0')
+  .option('-p, --project [value]', 'create a project')
+  .parse(process.argv)
 
-  logger.green('-----------')
-})
+if (program.project) {
+  console.log(program.project)
+  if (program.project === true) {
+    inquirer
+      .prompt(promptInfo)
+      .then(answers => createProject(answers['app-name']))
+  } else {
+    const appName = program.project
+    createProject(appName)
+  }
+} else {
+  logger.yellow("Please execute 'dodo -h' for help.")
+}

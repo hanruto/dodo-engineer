@@ -5,9 +5,6 @@
   "main": "index.js",
   "author": "小寒",
   "license": "MIT",
-  "bin": {
-    "dodo-init": "./index.js"
-  },
   "dependencies": {
     "chalk": "^2.4.2",
     "commander": "^2.20.0",
