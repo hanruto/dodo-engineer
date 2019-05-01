@@ -45,14 +45,16 @@ function copyFile(file, goal, options) {
 }
 
 function createProject(appName) {
-  logger.yellow('-----------')
   const options = { appName, authorName: 'xiaoHan' }
+  logger.green(`start build your project.`)
+
+  const appRoot = path.join(root, appName)
+  if (fs.existsSync(appRoot)) fs.rmdirSync(appRoot)
+
   traverseDir(templateDir, file => {
-    const goal = path.join(root, appName, path.relative(templateDir, file))
+    const goal = path.join(appRoot, path.relative(templateDir, file))
     copyFile(file, goal, options)
   })
-  logger.green(`your project has been created successfully.`)
-  logger.yellow('-----------')
 }
 
 program
@@ -61,7 +63,6 @@ program
   .parse(process.argv)
 
 if (program.project) {
-  console.log(program.project)
   if (program.project === true) {
     inquirer
       .prompt(promptInfo)
@@ -71,5 +72,5 @@ if (program.project) {
     createProject(appName)
   }
 } else {
-  logger.yellow("Please execute 'dodo -h' for help.")
+  logger.yellow(`Please execute 'dodo -h' for help`)
 }
