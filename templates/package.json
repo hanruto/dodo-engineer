@@ -1,8 +1,9 @@
 {
-  "name": "{{{AppName}}}",
+  "name": "{{{appName}}}",
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT",
+  "author": "{{{authorName}}}",
   "scripts": {
     "dev": "webpack-dev-server --config ./config/webpack.dev.js",
     "build": "webpack --config ./config/webpack.prod.js"
