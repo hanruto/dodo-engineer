@@ -1,76 +1,43 @@
-const inquirer = require('inquirer'),
-  logger = require('./logger'),
-  path = require('path'),
-  fs = require('fs'),
-  program = require('commander')
+const program = require('commander'),
+  handleCreateProject = require('./commanders/project'),
+  hanldeOpenProject = require('./commanders/open'),
+  handleRemoveProject = require('./commanders/remove'),
+  handleListProject = require('./commanders/list'),
+  handleOpenWorkProject = require('./commanders/work')
 
-const root = process.cwd()
-const templateDir = path.join(__dirname, '../templates')
-
-const promptInfo = [
-  {
-    type: 'input',
-    name: 'app-name',
-    message: "What's the name of your project"
-  }
-]
-
-function traverseDir(dir, callback) {
-  let dirPath = path.isAbsolute(dir) ? dir : path.resolve(dir)
-  const files = fs.readdirSync(dirPath)
-  files.map(file => {
-    const filePath = path.join(dirPath, file)
-    const stat = fs.statSync(filePath)
-    if (stat.isDirectory()) {
-      traverseDir(filePath, callback)
-    } else {
-      callback(filePath)
-    }
-  })
-}
-
-function render(str, options) {
-  return str.replace(/{{{(.*)}}}/g, function(matched, group) {
-    return options[group] || matched
-  })
-}
-
-function copyFile(file, goal, options) {
-  const fileString = fs.readFileSync(file).toString()
-  const str = render(fileString, options)
-  const dir = path.dirname(goal)
-  if (!fs.existsSync(dir)) fs.mkdirSync(dir)
-  logger.blue(`--- create file ${goal}`)
-  fs.writeFileSync(goal, str)
-}
-
-function createProject(appName) {
-  const options = { appName, authorName: 'xiaoHan' }
-  logger.green(`start build your project.`)
-
-  const appRoot = path.join(root, appName)
-  if (fs.existsSync(appRoot)) fs.rmdirSync(appRoot)
-
-  traverseDir(templateDir, file => {
-    const goal = path.join(appRoot, path.relative(templateDir, file))
-    copyFile(file, goal, options)
-  })
-}
-
+/**
+ * program commander defination
+ */
 program
   .version('0.1.0')
+  .option('-o, --open [value]', 'open the project')
   .option('-p, --project [value]', 'create a project')
+  .option('-d, --delete [value]', 'delete the project')
+  .option('-l, --list [type]', 'show all of the projects')
+  .option('-w, --work [value]', 'open the work project')
+  .command('[appName]', 'open project')
+  .action(appName => hanldeOpenProject(appName))
   .parse(process.argv)
 
+/**
+ * action hanlders
+ */
+if (program.open) {
+  hanldeOpenProject(program.open)
+}
+
+if (program.work) {
+  handleOpenWorkProject(program.work)
+}
+
 if (program.project) {
-  if (program.project === true) {
-    inquirer
-      .prompt(promptInfo)
-      .then(answers => createProject(answers['app-name']))
-  } else {
-    const appName = program.project
-    createProject(appName)
-  }
-} else {
-  logger.yellow(`Please execute 'dodo -h' for help`)
+  handleCreateProject(program.project)
+}
+
+if (program.delete) {
+  handleRemoveProject(program.delete)
+}
+
+if (program.list) {
+  handleListProject(program.list)
 }
