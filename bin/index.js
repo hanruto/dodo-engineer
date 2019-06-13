@@ -16,11 +16,14 @@ program
   .option('-l, --list [type]', 'show all of the projects')
   .option('-w, --work [value]', 'open the work project')
   .command('[appName]', 'open project')
-  .action(appName => hanldeOpenProject(appName))
+  .action(actionName => {
+    console.log(actionName)
+    hanldeOpenProject(actionName)
+  })
   .parse(process.argv)
 
 /**
- * action hanlders
+ * program action hanlders
  */
 if (program.open) {
   hanldeOpenProject(program.open)

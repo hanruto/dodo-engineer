@@ -1,20 +1,18 @@
-// app.js
-import { hot } from 'react-hot-loader/root'
 import * as React from 'react'
-import { Provider } from 'mobx-react'
-import { HashRouter as Router, Route } from 'react-router-dom'
-import stores from './stores'
-import HomePage from './pages/Home'
+import { hot } from 'react-hot-loader/root'
+import { Provider } from 'react-redux'
+import IndexRouter from './routes'
+import store from './store'
 import './styles/index.scss'
 
-function App() {
-  return (
-    <Provider {...stores}>
-      <Router>
-        <Route path="/" component={HomePage} />
-      </Router>
-    </Provider>
-  )
+class App extends React.Component {
+  render() {
+    return (
+      <Provider store={store}>
+        <IndexRouter />
+      </Provider>
+    )
+  }
 }
 
 export default hot(App)

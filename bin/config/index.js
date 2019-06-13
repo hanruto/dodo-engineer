@@ -5,10 +5,11 @@ module.exports = {
   projectDir: path.join(__dirname, '../../../'),
   workDir: path.join(__dirname, '../../../../work'),
   workProjectMap: {
+    'h5-v2': 'mobileH5V2',
+    h5: 'primary_school_mobile_h5',
     'entry-mp': 'primary_entry_camp',
     'free-study-mp': 'primary-school_mp_study',
     'study-mp': 'Primary_School_MP',
-    h5: 'mobileH5V2',
     shadow: 'Shadow'
   }
 }

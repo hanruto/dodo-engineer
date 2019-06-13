@@ -10,7 +10,8 @@ module.exports = merge(baseConfig, {
     filename: '[name].[contenthash].js',
     path: path.resolve(__dirname, '../dist'),
     chunkFilename: '[name].[contenthash].js',
-    pathinfo: false
+    pathinfo: false,
+    publicPath: '/',
   },
   mode: 'production',
   devtool: 'source-map',
@@ -21,10 +22,10 @@ module.exports = merge(baseConfig, {
         vendor: {
           test: /[\\/]node_modules[\\/]/,
           name: 'vendors',
-          chunks: 'all'
-        }
-      }
-    }
+          chunks: 'all',
+        },
+      },
+    },
   },
-  plugins: [new CleanWebpackPlugin(), new webpack.HashedModuleIdsPlugin()]
+  plugins: [new CleanWebpackPlugin(), new webpack.HashedModuleIdsPlugin()],
 })
