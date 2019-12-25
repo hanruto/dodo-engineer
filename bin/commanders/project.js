@@ -23,7 +23,7 @@ function traverseDir(dir, callback) {
 }
 
 function render(str, options) {
-  return str.replace(/{{{(.*)}}}/g, function(matched, group) {
+  return str.replace(/{{{(.*)}}}/g, function (matched, group) {
     return options[group] || matched
   })
 }
@@ -68,11 +68,18 @@ function createProject(appName) {
 
 module.exports = function handler(appName) {
   if (typeof appName !== 'string') {
-    const promptInfo = {
-      type: 'input',
-      name: 'app-name',
-      message: "What's the name of your project"
-    }
+    const promptInfo = [
+      {
+        type: 'input',
+        name: 'app-name',
+        message: "What's the name of your project?"
+      },
+      {
+        type: 'input',
+        name: 'author-name',
+        message: "What's your name?"
+      }
+    ]
 
     inquirer
       .prompt(promptInfo)

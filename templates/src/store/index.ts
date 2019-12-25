@@ -2,16 +2,13 @@ import { createStore, combineReducers, applyMiddleware } from 'redux'
 import { connect } from 'react-redux'
 import thunk from 'redux-thunk'
 import promise from 'redux-promise'
-import todo from './todo'
 import test from './test'
 
 const reducers = combineReducers({
-  todoReducer: todo.reducer,
   testReducer: test.reducer,
 })
 
 const actions = {
-  todoActions: todo.actions,
   testActions: test.actions,
 }
 

@@ -1,8 +1,8 @@
-const webpack = require('webpack'),
-  merge = require('webpack-merge'),
-  path = require('path'),
-  baseConfig = require('./webpack.common'),
-  CleanWebpackPlugin = require('clean-webpack-plugin')
+const webpack = require('webpack')
+const merge = require('webpack-merge')
+const path = require('path')
+const baseConfig = require('./webpack.common')
+const CleanWebpackPlugin = require('clean-webpack-plugin')
 
 module.exports = merge(baseConfig, {
   entry: ['@babel/polyfill', './src/index'],
@@ -27,5 +27,8 @@ module.exports = merge(baseConfig, {
       },
     },
   },
-  plugins: [new CleanWebpackPlugin(), new webpack.HashedModuleIdsPlugin()],
+  plugins: [
+    new CleanWebpackPlugin(),
+    new webpack.HashedModuleIdsPlugin()
+  ],
 })

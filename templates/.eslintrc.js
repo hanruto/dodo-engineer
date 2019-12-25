@@ -28,7 +28,7 @@ module.exports = {
   },
   rules: {
     indent: ['error', 2, { SwitchCase: 1 }],
-    'linebreak-style': ['error', 'unix'],
+    'linebreak-style': 0,
     quotes: ['error', 'single'],
     semi: ['error', 'never'],
     'no-console': 1,

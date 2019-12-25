@@ -1,18 +1,4 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const webpack = require('webpack')
-const dotenv = require('dotenv')
-
-const DOMAIN_ENV = process.env.DOMAIN_ENV
-const NODE_ENV = process.env.NODE_ENV
-
-const globalConfig = Object.assign(
-  { DOMAIN_ENV, NODE_ENV },
-  dotenv.config().parsed
-)
-
-for (const key in globalConfig) {
-  globalConfig[key] = JSON.stringify(globalConfig[key])
-}
 
 module.exports = {
   module: {
@@ -42,11 +28,10 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       publicPath: '/',
-      template: './src/index.html',
-      favicon: './src/static/favicon.ico',
-      title: 'yang',
+      template: './public/index.html',
+      favicon: './public/favicon.ico',
+      title: '{{{appName}}}',
     }),
-    new webpack.DefinePlugin(globalConfig),
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],

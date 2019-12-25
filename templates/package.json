@@ -1,16 +1,13 @@
 {
-  "name": "appName",
+  "name": "{{{appName}}}",
   "version": "0.0.40",
   "main": "src/index.js",
   "author": "{{{authorName}}}",
   "license": "MIT",
   "scripts": {
-    "dev": "DOMAIN_ENV=dev NODE_ENV=dev webpack-dev-server --config ./config/webpack.dev.js",
-    "build:test": "DOMAIN_ENV=dev NODE_ENV=prod webpack --config ./config/webpack.prod.js",
-    "build:prod": "DOMAIN_ENV=prod NODE_ENV=prod webpack --config ./config/webpack.prod.js",
-    "lint:scss": "stylelint ./src/styles/* --fix",
-    "deploy:test": "npm run build:test && scp -r ./dist/* master@10.8.8.8:/home/master/4.0study/dist/xs-h5/",
-    "push:test": "scp -r ./dist/* master@10.8.8.8:/home/master/4.0study/dist/xs-h5/"
+    "dev": "webpack-dev-server --config ./config/webpack.dev.js",
+    "build": "webpack --config ./config/webpack.prod.js",
+    "lint:scss": "stylelint ./src/styles/* --fix"
   },
   "dependencies": {
     "@babel/plugin-syntax-dynamic-import": "^7.2.0",
